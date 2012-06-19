@@ -151,6 +151,7 @@ help()
 		    TODOTXT_SORT_COMMAND="sort ..." customize list output
 		    TODOTXT_FINAL_FILTER="sed ..."  customize list after color, P@+ hiding
 		    TODOTXT_SOURCEVAR=\$DONE_FILE   use another source for listcon, listproj
+          TODOTXT_DEFAULT_PRIORITY=""     set a default priority for new actions
 
 
 	EndVerboseHelp
@@ -571,6 +572,7 @@ TODOTXT_DEFAULT_ACTION=${TODOTXT_DEFAULT_ACTION:-}
 TODOTXT_SORT_COMMAND=${TODOTXT_SORT_COMMAND:-env LC_COLLATE=C sort -f -k2}
 TODOTXT_DISABLE_FILTER=${TODOTXT_DISABLE_FILTER:-}
 TODOTXT_FINAL_FILTER=${TODOTXT_FINAL_FILTER:-cat}
+TODOTXT_DEFAULT_PRIORITY=${TODOTXT_DEFAULT_PRIORITY:-0}
 
 # Export all TODOTXT_* variables
 export ${!TODOTXT_@}
@@ -713,6 +715,10 @@ _addto() {
     file="$1"
     input="$2"
     cleaninput
+
+    if [[ $TODOTXT_DEFAULT_PRIORITY != 0 ]]; then
+       input=$(echo "($TODOTXT_DEFAULT_PRIORITY) $input")
+    fi
 
     if [[ $TODOTXT_DATE_ON_ADD = 1 ]]; then
         now=$(date '+%Y-%m-%d')
