@@ -716,8 +716,10 @@ _addto() {
     input="$2"
     cleaninput
 
-    if [[ $TODOTXT_DEFAULT_PRIORITY != 0 ]]; then
-       input=$(echo "($TODOTXT_DEFAULT_PRIORITY) $input")
+    if [[ $(echo $input | grep '^([A-Z]) ') == "" ]]; then
+        if [[ $TODOTXT_DEFAULT_PRIORITY != 0 ]]; then
+            input=$(echo "($TODOTXT_DEFAULT_PRIORITY) $input")
+        fi
     fi
 
     if [[ $TODOTXT_DATE_ON_ADD = 1 ]]; then
